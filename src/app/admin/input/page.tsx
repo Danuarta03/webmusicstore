@@ -1,7 +1,8 @@
-// app/admin/input/page.tsx
+// src/app/admin/input/page.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image'; // Import Image from next/image
 
 interface Product {
   id: number;
@@ -32,6 +33,11 @@ export default function AddProduct() {
   };
 
   const handleSubmit = async () => {
+    if (!product.name || product.price <= 0 || product.stock < 0) {
+      alert('Please provide valid product data.');
+      return;
+    }
+
     try {
       const res = await fetch('/api/admin/products', {
         method: 'POST',
@@ -68,7 +74,7 @@ export default function AddProduct() {
   };
 
   const handleUpdate = async (id: number) => {
-    const updatedProduct = { ...product, id }; // Assuming you'll set a new value for product with updated data
+    const updatedProduct = { ...product, id };
     try {
       const res = await fetch(`/api/admin/products`, { // Fixed string interpolation
         method: 'PUT',
@@ -120,7 +126,15 @@ export default function AddProduct() {
                 <td>{product.description}</td>
                 <td>${product.price}</td>
                 <td>{product.stock}</td>
-                <td><img src={product.image} alt={product.name} /></td>
+                <td>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={100}
+                    height={100}
+                    layout="fixed"
+                  />
+                </td>
                 <td>
                   <button onClick={() => handleUpdate(product.id)}>Update</button>
                   <button onClick={() => handleDelete(product.id)}>Delete</button>

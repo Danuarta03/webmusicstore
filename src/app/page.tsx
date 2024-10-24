@@ -1,7 +1,8 @@
-// app/page.tsx
+// src/app/page.tsx
 "use client";
 
 import { useState } from 'react';
+import Image from 'next/image'; // Import Image from next/image
 
 interface Product {
   id: number;
@@ -43,7 +44,13 @@ export default function Storefront() {
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} />
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={500}
+              height={500}
+              layout="responsive" // Pastikan gambar responsif
+            />
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>${product.price}</p>
