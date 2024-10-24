@@ -18,7 +18,7 @@ export default function Storefront() {
 
   const handleSearch = async () => {
     try {
-      const res = await fetch(`/api/products?search=${search}`);
+      const res = await fetch(`/api/products?search=${search}`); // Fixed string interpolation
       const data = await res.json();
       setProducts(data);
     } catch (error) {

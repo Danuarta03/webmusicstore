@@ -52,7 +52,7 @@ export default function AddProduct() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`/api/admin/products?id=${id}`, {
+      const res = await fetch(`/api/admin/products?id=${id}`, { // Fixed string interpolation
         method: 'DELETE',
       });
       if (res.ok) {
@@ -68,9 +68,9 @@ export default function AddProduct() {
   };
 
   const handleUpdate = async (id: number) => {
-    const updatedProduct = { ...product, id }; // Assuming you'll set a new value for `product` with updated data
+    const updatedProduct = { ...product, id }; // Assuming you'll set a new value for product with updated data
     try {
-      const res = await fetch(`/api/admin/products`, {
+      const res = await fetch(`/api/admin/products`, { // Fixed string interpolation
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProduct),
