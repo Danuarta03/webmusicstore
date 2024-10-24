@@ -1,7 +1,7 @@
 // src/app/page.tsx
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image'; // Import Image from next/image
 
 interface Product {
@@ -16,6 +16,23 @@ interface Product {
 export default function Storefront() {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+
+  // Fetch all products on component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/products'); // Endpoint untuk mengambil semua produk
+        const data = await res.json();
+        console.log(data); // Cek data yang diterima
+        setProducts(data); // Update state produk
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        alert('Failed to fetch products.');
+      }
+    };
+
+    fetchProducts(); // Panggil fungsi untuk mengambil produk
+  }, []); // Dependency array kosong agar hanya dijalankan sekali saat komponen dimuat
 
   const handleSearch = async () => {
     try {
