@@ -1,21 +1,262 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* app/globals.css */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Overall Page Style */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F4F4F9; /* Light background for contrast */
+}
+
+/* Header Style */
+header {
+  background-color: #9CA986; /* Your palette color */
+  padding: 15px 40px; /* Add more padding for better spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  color: white;
+}
+
+/* Navigation Links */
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 30px; /* Space between navigation items */
+}
+
+header nav ul li {
+  display: inline;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+header nav ul li a:hover {
+  color: #F4F4F9;
+  border-bottom: 2px solid white; /* Simple underline effect */
+}
+
+/* Main Content Styling */
+main {
+  padding: 40px; /* Add more padding to the main content */
+  color: #333; /* Darker text for contrast */
+}
+
+/* Store Title Styling */
+.store-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #5F6F65;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* Search Section Styling */
+.search-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-section input {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #808D7C;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.search-section input:focus {
+  border: 1px solid #5F6F65; /* Darker border on focus */
+}
+
+.search-section button {
+  background-color: #808D7C;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.search-section button:hover {
+  background-color: #5F6F65; /* Darken on hover */
+}
+
+/* Separator Line Styling */
+.separator-line {
+  border: none;
+  border-top: 2px solid #C9DABF;
+  width: 80%;
+  margin: 20px auto;
+}
+
+/* Product Grid (when displaying products) */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between product cards */
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.product-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-card p {
+  color: #808D7C;
+  margin-bottom: 5px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+}
+
+/* Additional Styles for Add Product Form */
+
+/* Add Product Page Container */
+.add-product-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #F4F4F9;
+  min-height: 100vh; /* Full-height page */
+}
+
+/* Page Title */
+.add-product-page h1 {
+  font-size: 2.5rem;
+  color: #5F6F65;
+  margin-bottom: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Add Product Form Container */
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Input Fields in the Add Product Form */
+.add-product-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #808D7C;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.add-product-form input:focus {
+  border-color: #5F6F65; /* Darker border on focus */
+}
+
+/* Add Product Button */
+.add-product-form button {
+  background-color: #808D7C;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.add-product-form button:hover {
+  background-color: #5F6F65; /* Darken on hover */
+}
+
+/* Product List Styles */
+.product-list {
+  margin-top: 40px;
+  width: 100%; /* Full width */
+}
+
+.product-list table {
+  width: 100%; /* Make the table full-width */
+  border-collapse: collapse; /* Remove gaps between table cells */
+  text-align: left;
+}
+
+.product-list th, .product-list td {
+  padding: 12px 15px; /* Adjust padding for better spacing */
+  border-bottom: 1px solid #ccc; /* Add border to cells */
+}
+
+.product-list th {
+  background-color: #9CA986; /* Header background color */
+  color: white; /* Text color for header */
+  font-weight: bold;
+}
+
+.product-list td {
+  background-color: #F9F9F9; /* Light background for table rows */
+}
+
+.product-list img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-list button {
+  margin: 5px;
+  padding: 6px 12px;
+  background-color: #808D7C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-list button:hover {
+  background-color: #5F6F65;
+}
+
+/* Optional: Add hover effect on rows */
+.product-list tr:hover td {
+  background-color: #E9E9E9; /* Light gray on hover */
 }
