@@ -24,8 +24,9 @@ export default function AddProduct() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('/api/admin/products');
+      const res = await fetch('/api/products'); // Pastikan endpoint ini benar
       const data = await res.json();
+      console.log(data); // Cek produk yang diambil
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -48,7 +49,9 @@ export default function AddProduct() {
         alert('Product added successfully');
         fetchProducts(); // Refresh product list after adding a product
       } else {
-        alert('Failed to add product');
+        const errorData = await res.json();
+        console.error('Failed to add product:', errorData); // Log detail error
+        alert('Failed to add product: ' + errorData.message);
       }
     } catch (error) {
       console.error('Error adding product:', error);
@@ -58,7 +61,7 @@ export default function AddProduct() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`/api/admin/products?id=${id}`, { // Fixed string interpolation
+      const res = await fetch(`/api/admin/products?id=${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -76,7 +79,7 @@ export default function AddProduct() {
   const handleUpdate = async (id: number) => {
     const updatedProduct = { ...product, id };
     try {
-      const res = await fetch(`/api/admin/products`, { // Fixed string interpolation
+      const res = await fetch(`/api/admin/products`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProduct),

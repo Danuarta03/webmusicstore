@@ -21,7 +21,8 @@ export default function Storefront() {
     try {
       const res = await fetch(`/api/products?search=${search}`); // Fixed string interpolation
       const data = await res.json();
-      setProducts(data);
+      console.log(data); // Cek data yang diterima
+      setProducts(data); // Update state produk
     } catch (error) {
       console.error('Error fetching products:', error);
       alert('Failed to fetch products.');
