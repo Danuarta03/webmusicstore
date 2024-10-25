@@ -1,14 +1,18 @@
 import { db } from '../../../../lib/db'; // Import koneksi database
 import { NextResponse } from 'next/server';
-import { ResultSetHeader, RowDataPacket } from 'mysql2'; // Import tipe data
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
-// Helper function untuk log error dengan konsisten
+// Helper function untuk log error secara konsisten
 const logError = (message: string, error: unknown) => {
-  console.error(`${message}:`, error);
+  if (error instanceof Error) {
+    console.error(`${message}:`, error.message);
+  } else {
+    console.error(`${message}:`, error);
+  }
 };
 
 /** 
- * GET: Fetch semua produk 
+ * GET: Fetch semua produk
  */
 export async function GET() {
   try {
@@ -22,7 +26,7 @@ export async function GET() {
 }
 
 /**
- * POST: Tambahkan produk baru 
+ * POST: Tambahkan produk baru
  */
 export async function POST(req: Request) {
   try {
@@ -33,6 +37,7 @@ export async function POST(req: Request) {
 
     // Validasi data produk
     if (!name || price <= 0 || stock < 0) {
+      console.error('Invalid product data:', { name, price, stock });
       throw new Error('Invalid product data: Name, price, or stock is not valid.');
     }
 
@@ -44,19 +49,10 @@ export async function POST(req: Request) {
     console.log('Product added successfully with ID:', result.insertId);
     return NextResponse.json({ message: 'Product added', productId: result.insertId }, { status: 201 });
   } catch (error) {
-    // Memastikan error adalah instance dari Error
-    if (error instanceof Error) {
-      console.error('Error adding product:', error.message);
-      return NextResponse.json({ message: 'Error adding product', error: error.message }, { status: 500 });
-    } else {
-      // Jika error bukan instance Error, tampilkan log default
-      console.error('Unexpected error:', error);
-      return NextResponse.json({ message: 'Unexpected error occurred' }, { status: 500 });
-    }
+    logError('Error adding product', error);
+    return NextResponse.json({ message: 'Error adding product' }, { status: 500 });
   }
 }
-
-
 
 /**
  * DELETE: Hapus produk berdasarkan ID
@@ -73,6 +69,7 @@ export async function DELETE(req: Request) {
     const [result] = await db.query<ResultSetHeader>('DELETE FROM products WHERE id = ?', [id]);
 
     if (result.affectedRows === 0) {
+      console.error(`Product with ID ${id} not found.`);
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });
     }
 
@@ -95,7 +92,8 @@ export async function PUT(req: Request) {
     const { id, name, description, price, stock, image } = product;
 
     if (!id || !name || price <= 0 || stock < 0) {
-      throw new Error('Invalid product data. Ensure all fields are filled correctly.');
+      console.error('Invalid product data:', { id, name, price, stock });
+      throw new Error('Invalid product data: Ensure all fields are filled correctly.');
     }
 
     const [result] = await db.query<ResultSetHeader>(
@@ -104,6 +102,7 @@ export async function PUT(req: Request) {
     );
 
     if (result.affectedRows === 0) {
+      console.error(`Product with ID ${id} not found.`);
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });
     }
 

@@ -1,8 +1,7 @@
-// src/app/admin/input/page.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image'; 
 
 interface Product {
   id: number;
@@ -22,35 +21,55 @@ export default function AddProduct() {
     fetchProducts();
   }, []);
 
+  // Function to fetch products
   const fetchProducts = async () => {
     try {
-      const res = await fetch('/api/products'); // Pastikan endpoint ini benar
+      const res = await fetch('/api/products');
+      if (!res.ok) throw new Error(`Failed to fetch products: ${res.statusText}`);
       const data = await res.json();
-      console.log(data); // Cek produk yang diambil
+      console.log('Fetched products:', data);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      alert('Error fetching products. Please try again later.');
     }
   };
 
-  const handleSubmit = async () => {
-    if (!product.name || product.price <= 0 || product.stock < 0) {
+  // Function to handle input change
+  const handleInputChange = (field: keyof typeof product, value: string | number) => {
+    setProduct((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  // Validate product data before submitting
+  const validateProduct = () => {
+    const { name, price, stock } = product;
+    if (!name.trim() || price <= 0 || stock < 0) {
       alert('Please provide valid product data.');
-      return;
+      return false;
     }
+    return true;
+  };
+
+  // Handle product submission
+  const handleSubmit = async () => {
+    if (!validateProduct()) return;
 
     try {
-      const res = await fetch('/api/admin/products', {
+      const res = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product),
       });
+
       if (res.ok) {
         alert('Product added successfully');
-        fetchProducts(); // Refresh product list after adding a product
+        fetchProducts(); // Refresh product list
       } else {
         const errorData = await res.json();
-        console.error('Failed to add product:', errorData); // Log detail error
+        console.error('Failed to add product:', errorData);
         alert('Failed to add product: ' + errorData.message);
       }
     } catch (error) {
@@ -59,14 +78,16 @@ export default function AddProduct() {
     }
   };
 
+  // Handle product deletion
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`/api/admin/products?id=${id}`, {
+      const res = await fetch(`/api/products?id=${id}`, {
         method: 'DELETE',
       });
+
       if (res.ok) {
         alert('Product deleted successfully');
-        fetchProducts(); // Refresh product list after deleting a product
+        fetchProducts(); // Refresh product list
       } else {
         alert('Failed to delete product');
       }
@@ -76,17 +97,19 @@ export default function AddProduct() {
     }
   };
 
+  // Handle product update
   const handleUpdate = async (id: number) => {
     const updatedProduct = { ...product, id };
     try {
-      const res = await fetch(`/api/admin/products`, {
+      const res = await fetch('/api/products', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProduct),
       });
+
       if (res.ok) {
         alert('Product updated successfully');
-        fetchProducts(); // Refresh product list after updating
+        fetchProducts(); // Refresh product list
       } else {
         alert('Failed to update product');
       }
@@ -96,19 +119,61 @@ export default function AddProduct() {
     }
   };
 
+  // Component to render product row
+  const ProductRow = ({ product }: { product: Product }) => (
+    <tr key={product.id}>
+      <td>{product.name}</td>
+      <td>{product.description}</td>
+      <td>${product.price}</td>
+      <td>{product.stock}</td>
+      <td>
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={100}
+          height={100}
+          layout="fixed"
+        />
+      </td>
+      <td>
+        <button onClick={() => handleUpdate(product.id)}>Update</button>
+        <button onClick={() => handleDelete(product.id)}>Delete</button>
+      </td>
+    </tr>
+  );
+
   return (
     <div className="add-product-page">
       <h1>Add Product</h1>
       <div className="add-product-form">
-        <input type="text" placeholder="Name" onChange={(e) => setProduct({ ...product, name: e.target.value })} />
-        <input type="text" placeholder="Description" onChange={(e) => setProduct({ ...product, description: e.target.value })} />
-        <input type="number" placeholder="Price" onChange={(e) => setProduct({ ...product, price: +e.target.value })} />
-        <input type="number" placeholder="Stock" onChange={(e) => setProduct({ ...product, stock: +e.target.value })} />
-        <input type="text" placeholder="Image URL" onChange={(e) => setProduct({ ...product, image: e.target.value })} />
+        <input
+          type="text"
+          placeholder="Name"
+          onChange={(e) => handleInputChange('name', e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          onChange={(e) => handleInputChange('description', e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Price"
+          onChange={(e) => handleInputChange('price', +e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Stock"
+          onChange={(e) => handleInputChange('stock', +e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Image URL"
+          onChange={(e) => handleInputChange('image', e.target.value)}
+        />
         <button onClick={handleSubmit}>Add Product</button>
       </div>
 
-      {/* Display the list of products */}
       <div className="product-list">
         <h2>Product List</h2>
         <table>
@@ -124,25 +189,7 @@ export default function AddProduct() {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>${product.price}</td>
-                <td>{product.stock}</td>
-                <td>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={100}
-                    height={100}
-                    layout="fixed"
-                  />
-                </td>
-                <td>
-                  <button onClick={() => handleUpdate(product.id)}>Update</button>
-                  <button onClick={() => handleDelete(product.id)}>Delete</button>
-                </td>
-              </tr>
+              <ProductRow key={product.id} product={product} />
             ))}
           </tbody>
         </table>
