@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { ResultSetHeader, RowDataPacket } from 'mysql2'; // Import tipe data
 
 // Helper function untuk log error dengan konsisten
-const logError = (message: string, error: any) => {
+const logError = (message: string, error: unknown) => {
   console.error(`${message}:`, error);
 };
 
