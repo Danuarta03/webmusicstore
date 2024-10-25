@@ -1,28 +1,25 @@
-/* app/globals.css */
-
-/* Overall Page Style */
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #F4F4F9; /* Light background for contrast */
+  background-color: #F4F4F9;
 }
 
-/* Header Style */
+/* Header Styling */
 header {
-  background-color: #9CA986; /* Your palette color */
-  padding: 15px 40px; /* Add more padding for better spacing */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  background-color: #9CA986;
+  padding: 15px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: white;
 }
 
-/* Navigation Links */
 header nav ul {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 30px; /* Space between navigation items */
+  gap: 30px;
 }
 
 header nav ul li {
@@ -34,21 +31,15 @@ header nav ul li a {
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
-  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  transition: all 0.3s ease;
 }
 
 header nav ul li a:hover {
   color: #F4F4F9;
-  border-bottom: 2px solid white; /* Simple underline effect */
+  border-bottom: 2px solid white;
 }
 
-/* Main Content Styling */
-main {
-  padding: 40px; /* Add more padding to the main content */
-  color: #333; /* Darker text for contrast */
-}
-
-/* Store Title Styling */
+/* Store Title */
 .store-title {
   text-align: center;
   font-size: 2.5rem;
@@ -57,18 +48,20 @@ main {
   font-weight: bold;
 }
 
-/* Search Section Styling */
+/* Search Section */
 .search-section {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .search-section input {
   width: 300px;
   padding: 10px;
-  margin-right: 10px;
   border: 1px solid #808D7C;
   border-radius: 8px;
   outline: none;
@@ -76,7 +69,7 @@ main {
 }
 
 .search-section input:focus {
-  border: 1px solid #5F6F65; /* Darker border on focus */
+  border-color: #5F6F65;
 }
 
 .search-section button {
@@ -91,32 +84,41 @@ main {
 }
 
 .search-section button:hover {
-  background-color: #5F6F65; /* Darken on hover */
+  background-color: #5F6F65;
 }
 
-/* Separator Line Styling */
+/* Separator Line */
 .separator-line {
-  border: none;
-  border-top: 2px solid #C9DABF;
-  width: 80%;
+  width: 100%;
+  max-width: 1200px;
   margin: 20px auto;
+  border-top: 2px solid #C9DABF;
 }
 
-/* Product Grid (when displaying products) */
+/* Product Grid */
 .product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Space between product cards */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* Product Card */
 .product-card {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 200px;
+  padding: 16px;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .product-card img {
@@ -137,23 +139,30 @@ main {
   margin-bottom: 5px;
 }
 
-.product-card:hover {
-  transform: translateY(-5px); /* Lift on hover */
+/* Description Styling */
+.description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-height: 40px;
+  transition: max-height 0.3s ease;
 }
 
-/* Additional Styles for Add Product Form */
+.description.expanded {
+  white-space: normal;
+  max-height: 200px;
+}
 
-/* Add Product Page Container */
+/* Add Product Page */
 .add-product-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px;
   background-color: #F4F4F9;
-  min-height: 100vh; /* Full-height page */
+  min-height: 100vh;
 }
 
-/* Page Title */
 .add-product-page h1 {
   font-size: 2.5rem;
   color: #5F6F65;
@@ -162,7 +171,7 @@ main {
   text-align: center;
 }
 
-/* Add Product Form Container */
+/* Add Product Form */
 .add-product-form {
   display: flex;
   flex-direction: column;
@@ -170,12 +179,11 @@ main {
   padding: 40px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
 }
 
-/* Input Fields in the Add Product Form */
 .add-product-form input {
   width: 100%;
   padding: 12px;
@@ -187,10 +195,9 @@ main {
 }
 
 .add-product-form input:focus {
-  border-color: #5F6F65; /* Darker border on focus */
+  border-color: #5F6F65;
 }
 
-/* Add Product Button */
 .add-product-form button {
   background-color: #808D7C;
   color: white;
@@ -204,34 +211,35 @@ main {
 }
 
 .add-product-form button:hover {
-  background-color: #5F6F65; /* Darken on hover */
+  background-color: #5F6F65;
 }
 
-/* Product List Styles */
+/* Product List */
 .product-list {
   margin-top: 40px;
-  width: 100%; /* Full width */
+  width: 100%;
 }
 
 .product-list table {
-  width: 100%; /* Make the table full-width */
-  border-collapse: collapse; /* Remove gaps between table cells */
+  width: 100%;
+  border-collapse: collapse;
   text-align: left;
 }
 
-.product-list th, .product-list td {
-  padding: 12px 15px; /* Adjust padding for better spacing */
-  border-bottom: 1px solid #ccc; /* Add border to cells */
+.product-list th,
+.product-list td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ccc;
 }
 
 .product-list th {
-  background-color: #9CA986; /* Header background color */
-  color: white; /* Text color for header */
+  background-color: #9CA986;
+  color: white;
   font-weight: bold;
 }
 
 .product-list td {
-  background-color: #F9F9F9; /* Light background for table rows */
+  background-color: #F9F9F9;
 }
 
 .product-list img {
@@ -256,58 +264,6 @@ main {
   background-color: #5F6F65;
 }
 
-/* Optional: Add hover effect on rows */
 .product-list tr:hover td {
-  background-color: #E9E9E9; /* Light gray on hover */
-}
-
-.product-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
-  max-width: 300px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
-}
-
-.product-card:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-height: 40px; /* Batasi tinggi deskripsi */
-  transition: max-height 0.3s ease;
-}
-
-.expanded {
-  white-space: normal;
-  max-height: 200px; /* Tinggi maksimal saat diperluas */
-}
-
-.product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.store-title {
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.search-section {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.separator-line {
-  margin: 16px 0;
-  border: none;
-  border-top: 1px solid #e0e0e0;
+  background-color: #E9E9E9;
 }

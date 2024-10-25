@@ -68,7 +68,7 @@ export default function Storefront() {
             <Image
               src={product.image}
               alt={product.name}
-              width={500}
+              width={300}
               height={300}
               layout="responsive"
               style={{ borderRadius: '8px' }}
