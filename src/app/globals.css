@@ -260,3 +260,54 @@ main {
 .product-list tr:hover td {
   background-color: #E9E9E9; /* Light gray on hover */
 }
+
+.product-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  max-width: 300px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.product-card:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-height: 40px; /* Batasi tinggi deskripsi */
+  transition: max-height 0.3s ease;
+}
+
+.expanded {
+  white-space: normal;
+  max-height: 200px; /* Tinggi maksimal saat diperluas */
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.store-title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.separator-line {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+}

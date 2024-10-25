@@ -1,8 +1,7 @@
-// src/app/page.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -16,45 +15,49 @@ interface Product {
 export default function Storefront() {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [expandedProduct, setExpandedProduct] = useState<number | null>(null);
 
-  // Fetch all products on component mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('/api/products'); // Endpoint untuk mengambil semua produk
+        const res = await fetch('/api/products');
         const data = await res.json();
-        console.log(data); // Cek data yang diterima
-        setProducts(data); // Update state produk
+        console.log(data);
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
         alert('Failed to fetch products.');
       }
     };
 
-    fetchProducts(); // Panggil fungsi untuk mengambil produk
-  }, []); // Dependency array kosong agar hanya dijalankan sekali saat komponen dimuat
+    fetchProducts();
+  }, []);
 
   const handleSearch = async () => {
     try {
-      const res = await fetch(`/api/products?search=${search}`); // Fixed string interpolation
+      const res = await fetch(`/api/products?search=${search}`);
       const data = await res.json();
-      console.log(data); // Cek data yang diterima
-      setProducts(data); // Update state produk
+      console.log(data);
+      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
       alert('Failed to fetch products.');
     }
   };
 
+  const toggleDescription = (id: number) => {
+    setExpandedProduct(expandedProduct === id ? null : id);
+  };
+
   return (
     <div className="storefront">
       <h1 className="store-title">Music Store</h1>
       <div className="search-section">
-        <input 
-          type="text" 
-          placeholder="Search for music" 
-          value={search} 
-          onChange={(e) => setSearch(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Search for music"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
       </div>
@@ -66,13 +69,19 @@ export default function Storefront() {
               src={product.image}
               alt={product.name}
               width={500}
-              height={500}
-              layout="responsive" // Pastikan gambar responsif
+              height={300}
+              layout="responsive"
+              style={{ borderRadius: '8px' }}
             />
             <h2>{product.name}</h2>
-            <p>{product.description}</p>
+            <p className={`description ${expandedProduct === product.id ? 'expanded' : ''}`}>
+              {product.description}
+            </p>
             <p>${product.price}</p>
             <p>Stock: {product.stock}</p>
+            <button onClick={() => toggleDescription(product.id)}>
+              {expandedProduct === product.id ? 'Hide Details' : 'See Details'}
+            </button>
           </div>
         ))}
       </div>
