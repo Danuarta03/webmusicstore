@@ -29,10 +29,11 @@ export async function POST(req: Request) {
     const product = await req.json();
     console.log('Received product data:', product);
 
-    // Destructuring dan validasi
     const { name, description, price, stock, image } = product;
+
+    // Validasi data produk
     if (!name || price <= 0 || stock < 0) {
-      throw new Error('Invalid product data. Ensure all fields are filled correctly.');
+      throw new Error('Invalid product data: Name, price, or stock is not valid.');
     }
 
     const [result] = await db.query<ResultSetHeader>(
@@ -43,10 +44,19 @@ export async function POST(req: Request) {
     console.log('Product added successfully with ID:', result.insertId);
     return NextResponse.json({ message: 'Product added', productId: result.insertId }, { status: 201 });
   } catch (error) {
-    logError('Error adding product', error);
-    return NextResponse.json({ message: 'Error adding product' }, { status: 500 });
+    // Memastikan error adalah instance dari Error
+    if (error instanceof Error) {
+      console.error('Error adding product:', error.message);
+      return NextResponse.json({ message: 'Error adding product', error: error.message }, { status: 500 });
+    } else {
+      // Jika error bukan instance Error, tampilkan log default
+      console.error('Unexpected error:', error);
+      return NextResponse.json({ message: 'Unexpected error occurred' }, { status: 500 });
+    }
   }
 }
+
+
 
 /**
  * DELETE: Hapus produk berdasarkan ID
