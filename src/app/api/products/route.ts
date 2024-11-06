@@ -1,4 +1,6 @@
-import { db } from '../../../../lib/db'; // Import koneksi database
+//src/app/api/products/route.ts
+
+import { db } from '../../../../lib/db'; 
 import { NextResponse } from 'next/server';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 

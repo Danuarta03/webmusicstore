@@ -1,5 +1,6 @@
-"use client";
+//src/app/admin/input/page.tsx
 
+"use client";
 import { useState, useEffect } from 'react';
 import Image from 'next/image'; 
 
@@ -16,12 +17,10 @@ export default function AddProduct() {
   const [product, setProduct] = useState({ name: '', description: '', price: 0, stock: 0, image: '' });
   const [products, setProducts] = useState<Product[]>([]);
 
-  // Fetch products from the database when the component mounts
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // Function to fetch products
   const fetchProducts = async () => {
     try {
       const res = await fetch('/api/products');
@@ -35,7 +34,6 @@ export default function AddProduct() {
     }
   };
 
-  // Function to handle input change
   const handleInputChange = (field: keyof typeof product, value: string | number) => {
     setProduct((prev) => ({
       ...prev,
@@ -43,7 +41,6 @@ export default function AddProduct() {
     }));
   };
 
-  // Validate product data before submitting
   const validateProduct = () => {
     const { name, price, stock } = product;
     if (!name.trim() || price <= 0 || stock < 0) {
@@ -53,7 +50,6 @@ export default function AddProduct() {
     return true;
   };
 
-  // Handle product submission
   const handleSubmit = async () => {
     if (!validateProduct()) return;
 
@@ -78,7 +74,6 @@ export default function AddProduct() {
     }
   };
 
-  // Handle product deletion
   const handleDelete = async (id: number) => {
     try {
       const res = await fetch(`/api/products?id=${id}`, {
@@ -97,7 +92,6 @@ export default function AddProduct() {
     }
   };
 
-  // Handle product update
   const handleUpdate = async (id: number) => {
     const updatedProduct = { ...product, id };
     try {
@@ -119,7 +113,6 @@ export default function AddProduct() {
     }
   };
 
-  // Component to render product row
   const ProductRow = ({ product }: { product: Product }) => (
     <tr key={product.id}>
       <td>{product.name}</td>
